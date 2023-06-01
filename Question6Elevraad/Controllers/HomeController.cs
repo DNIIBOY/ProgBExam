@@ -6,13 +6,12 @@ namespace Question6Elevraad.Controllers;
 
 public class HomeController : Controller{
     private readonly ILogger<HomeController> _logger;
-    
-    List<User> users = new List<User>();
 
     public HomeController(ILogger<HomeController> logger){
         _logger = logger;
     }
-    
+
+
     [HttpGet]
     public IActionResult Index(){
         return View();
@@ -21,16 +20,17 @@ public class HomeController : Controller{
     [HttpPost]
     public IActionResult Index(string name, string studentClass, int age){
         var user = new User(name, studentClass, age);
-        users.Add(user);
+        Backend.Users.Participants.Add(user);
 
-        foreach (var p in users){
+        foreach (var p in Backend.Users.Participants){
             Console.WriteLine(p.Name);
         }
 
         return View();
     }
-    
-    public IActionResult Privacy(){
+
+    public IActionResult Participants(){
+        ViewBag.model = Backend.Users.Participants;
         return View();
     }
 
