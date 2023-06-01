@@ -1,3 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿Console.Write("Købspris: ");
+int purchasePrice = int.Parse(Console.ReadLine());
+Console.Write("Salgspris: ");
+int salesPrice = int.Parse(Console.ReadLine());
 
-Console.WriteLine("Hello, World!");
+int profit = salesPrice - purchasePrice;
+Console.WriteLine("Profit: " + profit);
