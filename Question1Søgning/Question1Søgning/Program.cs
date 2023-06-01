@@ -11,7 +11,7 @@ namespace Question1Soegning
         public int cityID { get; set; }
     }
 
-    public class Cities {
+    public class City {
         public int ID { get; set; }
         public string CityName { get; set; }
     }
@@ -35,7 +35,7 @@ namespace Question1Soegning
             //read cities from database
             SqlConnection citycon = new SqlConnection(DBConnection.ConnectionString);
             
-            List<Cities> cities = new List<Cities>();
+            List<City> cities = new List<City>();
             try {
                 citycon.Open();
                 
@@ -43,10 +43,12 @@ namespace Question1Soegning
                 SqlDataReader reader1 = citycmd.ExecuteReader();
                 if (reader1.HasRows) {
                     while (reader1.Read()) {
-                        cities.Add(new Cities() {
+                        cities.Add(
+                          new City() {
                             ID = reader1.GetInt32("CityID"),
                             CityName = reader1.GetString("CityName")
-                        }); 
+                          }
+                        ); 
                     }
                 }
                 reader1.Close();
