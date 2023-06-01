@@ -11,11 +11,26 @@ public class HomeController : Controller{
         _logger = logger;
     }
 
+
+    [HttpGet]
     public IActionResult Index(){
         return View();
     }
 
-    public IActionResult Privacy(){
+    [HttpPost]
+    public IActionResult Index(string name, string studentClass, int age){
+        var user = new User(name, studentClass, age);
+        Backend.Users.Participants.Add(user);
+
+        foreach (var p in Backend.Users.Participants){
+            Console.WriteLine(p.Name);
+        }
+
+        return View();
+    }
+
+    public IActionResult Participants(){
+        ViewBag.model = Backend.Users.Participants;
         return View();
     }
 

@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@{
+    ViewData["Title"] = "Tilmeldte";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div></div>
+
+<div class="wrapper">
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">StudentClass</th>
+                <th scope="col">Age</th>
+            </tr>
+            </thead>
+            @foreach (var item in ViewBag.model){
+                <tbody>
+                <tr>
+                    <th scope="row">@item.Name</th>
+                    <td>@item.StudentClass</td>
+                    <td>@item.Age</td>
+
+                </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
