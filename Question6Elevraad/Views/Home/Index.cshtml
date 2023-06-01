@@ -1,8 +1,49 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Tilmeldingsside";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center w-50 mx-auto">
+  <h1 class="display-4 mb-5">Elevfest tilmelding</h1>
+  <div class="mb-3">
+    <label for="basic-url" class="form-label">Dit fulde navn</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+    </div>
+    <div class="form-text" id="basic-addon4">Fx.: Peter Hansen</div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="basic-url" class="form-label">Klasse</label>
+    <div class="input-group">
+      <select class="form-select">
+        <option selected value="1a">1.a</option>
+        <option value="1b">1.b</option>
+        <option value="1c">1.c</option>
+        <option value="2a">2.a</option>
+        <option value="2b">2.b</option>
+        <option value="2c">2.c</option>
+        <option value="3a">3.a</option>
+        <option value="3b">3.b</option>
+        <option value="3c">3.c</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="basic-url" class="form-label">Alder</label>
+    <div class="input-group">
+      <input type="range" class="form-range" min="15" max="25" value="18" id="ageRange">
+    </div>
+    <div class="form-text" id="basic-addon4">Alder: <span id="ageDisplay">18</span></div>
+  </div>
+  <button type="button" class="btn btn-primary">Tilmeld</button>
+
 </div>
+
+<script>
+  document.querySelector("#ageRange").addEventListener("change", function() {
+      document.getElementById("ageDisplay").innerText = document.getElementById("ageRange").value
+  });
+
+
+</script>
