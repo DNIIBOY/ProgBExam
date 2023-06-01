@@ -11,9 +11,10 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">StudentClass</th>
-                <th scope="col">Age</th>
+                <th scope="col">Navn</th>
+                <th scope="col">Klasse</th>
+                <th scope="col">Alder</th>
+                <th scope="col">Må drikke?</th>
             </tr>
             </thead>
             @foreach (var item in ViewBag.model){
@@ -22,6 +23,7 @@
                     <th scope="row">@item.Name</th>
                     <td>@item.StudentClass</td>
                     <td>@item.Age</td>
+                    <td>@item.CanDrink</td>
 
                 </tr>
                 </tbody>

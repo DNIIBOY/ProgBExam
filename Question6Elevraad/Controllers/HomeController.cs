@@ -19,12 +19,8 @@ public class HomeController : Controller{
 
     [HttpPost]
     public IActionResult Index(string name, string studentClass, int age){
-        var user = new User(name, studentClass, age);
+        var user = new User(name, studentClass, age, age >= 18);
         Backend.Users.Participants.Add(user);
-
-        foreach (var p in Backend.Users.Participants){
-            Console.WriteLine(p.Name);
-        }
 
         return View();
     }
