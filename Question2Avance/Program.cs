@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 
 void ShowProfit(){
+    Console.WriteLine("---------BEREGN AVANCE---------");
     Console.Write("Købspris: ");
     int purchasePrice = int.Parse(Console.ReadLine());
     Console.Write("Salgspris: ");
@@ -13,6 +14,7 @@ void ShowProfit(){
 }
 
 void CalculateProfit(){
+    Console.WriteLine("---------BEREGN SALGSPRIS---------");
     Console.Write("Købspris: ");
     int purchasePrice = int.Parse(Console.ReadLine());
     Console.Write("Ønsket avance (%): ");
