@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleTables;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -17,38 +18,45 @@ namespace Question1Soegning
         public int ID { get; set; }
         public string CityName { get; set; }
     }
-    
-    
+
     public class DBConnection
     {
         public const string ConnectionString = "Data Source=70.34.198.110; Initial Catalog=2022RaCeMa; User ID=RaCeMa; Password=2022RaCeMa";
     }
-   //Data Source=70.34.198.110; Initial Catalog=2023PWManager; User ID=PWManager; Password=2023PWManager" 
-    
-    
+
     internal class Program
     {
         //user table with fistname
-        public static string findfirstname = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1 WHERE FirstName = @FirstName";
-        public static string findAll = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1";
+        private static string findfirstname = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1 WHERE FirstName = @FirstName";
+        private static string findAll = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1";
             
         //city table
         const string CitySqlQuery = "SELECT CityID, CityName FROM CitiesQuestion1";
+
+        public static string getcity(int cityid, List<Cities> citiesList)
+        {
+            foreach (var city in citiesList)
+            {
+                if (city.ID == cityid)
+                {
+                    return city.CityName;
+                }
+            }
+            return "City not found";
+        }
         
         static void Main(string[] args)
         {
             //read cities from database
-            SqlConnection citycon = new SqlConnection(DBConnection.ConnectionString);
+            SqlConnection con = new SqlConnection(DBConnection.ConnectionString);
             
             List<Cities> cities = new List<Cities>();
             try
             {
-                citycon.Open();
+                con.Open();
                 
-                SqlCommand citycmd = new SqlCommand(CitySqlQuery, citycon);
+                SqlCommand citycmd = new SqlCommand(CitySqlQuery, con);
                 
-                
-
                 SqlDataReader reader1 = citycmd.ExecuteReader();
                 if (reader1.HasRows)
                 {
@@ -64,53 +72,48 @@ namespace Question1Soegning
                 reader1.Close();
                 
                 citycmd.Dispose();
-                
-                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 throw;
             }
-
-            //initiate connection with connections string from class DBConnection
-            SqlConnection Usercmd = new SqlConnection(DBConnection.ConnectionString);
+            
             Console.WriteLine("Søg efter et navn? (blank for alle)");
             string? input = Console.ReadLine();
             
             try
             {
-                Usercmd.Open();
-                string userSqlQuery = findfirstname;
-                if (input == "" || input == " ")
+                string userSqlQuery;
+                SqlCommand usercmd;
+
+                if (input.Trim().Length != 0 )
+                {
+                    userSqlQuery = findfirstname;
+                    usercmd = new SqlCommand(userSqlQuery, con);
+                    usercmd.Parameters.AddWithValue("@FirstName", input);
+                }
+                else
                 {
                     userSqlQuery = findAll;
+                    usercmd = new SqlCommand(userSqlQuery, con);
                 }
-                
-                SqlCommand usercmd = new SqlCommand(userSqlQuery, Usercmd);
-                if(input != null)
-                    usercmd.Parameters.AddWithValue("@FirstName", input);                   
+                //create table for console output passe ind the column headers
+                var table = new ConsoleTable("Firstname", "Lastname", "City");
                 
                 SqlDataReader reader2 = usercmd.ExecuteReader();
                 if (reader2.HasRows)
                 {
-                    Console.WriteLine("FirstName \tLastName \t City");
-                    
                     while (reader2.Read())
                     {
-                        Console.Write(reader2.GetString("FirstName")+ "\t");
-                        Console.Write(reader2.GetString("LastName")+" \t");
-                        
-                        //run through the list of cities and find city name
-                        foreach (var city in cities)
-                        {
-                            if (city.ID == reader2.GetInt32("CityID"))
-                            {
-                                Console.Write(city.CityName + "\n");
-                            }
-                        }
+                        table.AddRow(
+                            reader2.GetString("FirstName"), 
+                            reader2.GetString("LastName"), 
+                            getcity(reader2.GetInt32("CityID"), cities)
+                        );
                     }
                 }
+                table.Write();
             }
             catch(Exception ex)
             {
@@ -119,7 +122,7 @@ namespace Question1Soegning
             }
             finally
             {
-                Usercmd.Close();
+                con.Close();
             }
         }
     }
