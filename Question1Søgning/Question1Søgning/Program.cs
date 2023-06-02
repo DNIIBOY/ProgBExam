@@ -27,7 +27,7 @@ namespace Question1Soegning
     internal class Program
     {
         //user table with fistname
-        private static string findfirstname = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1 WHERE FirstName = @FirstName";
+        private static string findfirstname = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1 WHERE FirstName LIKE @FirstName";
         private static string findAll = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1";
             
         //city table
@@ -91,7 +91,8 @@ namespace Question1Soegning
                 {
                     userSqlQuery = findfirstname;
                     usercmd = new SqlCommand(userSqlQuery, con);
-                    usercmd.Parameters.AddWithValue("@FirstName", input);
+                    usercmd.Parameters.AddWithValue("@FirstName", input + "%");
+                    
                 }
                 else
                 {
