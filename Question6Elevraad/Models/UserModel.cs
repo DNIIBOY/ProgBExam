@@ -6,10 +6,12 @@ public class User{
     public string Name;
     public string StudentClass;
     public int Age;
-    
-    public User(string name, string studentClass, int age){
+    public bool CanDrink;
+
+    public User(string name, string studentClass, int age, bool canDrink){
         Name = name;
         StudentClass = studentClass;
         Age = age;
+        CanDrink = canDrink;
     }
 }

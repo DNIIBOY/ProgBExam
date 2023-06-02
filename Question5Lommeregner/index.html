@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Lommeregner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="" />
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+
+<body>
+  <h2>Lommeregner</h2>
+  <input type="number" id="num1" value="0">
+  <select id="operation">
+    <option value="+">+</option>
+    <option value="-">-</option>
+    <option value="*">*</option>
+    <option value="/">/</option>
+  </select>
+  <input type="number" id="num2" value="0">
+  <br>
+  <button class="runBtn" onClick="showCalculation()">UDREGN</button>
+  <h3 id="result"></h3>
+  <script>
+    function calculate(val1, val2, operation){
+      switch(operation){
+        case "+":
+          return val1 + val2;
+          break;
+        case "-":
+          return val1 - val2;
+          break;
+        case "*":
+          return val1 * val2;
+          break;
+        case "/":
+          return val1 / val2;
+          break;
+      }
+    }
+
+    function showCalculation(){
+      let num1 = parseFloat(document.getElementById("num1").value);
+      let num2 = parseFloat(document.getElementById("num2").value);
+      let operation = document.getElementById("operation").value;
+      let result = calculate(num1, num2, operation);
+
+      let resultField = document.getElementById("result");
+      resultField.innerText = result;
+    }
+  </script>
+</body>
+
+</html>
