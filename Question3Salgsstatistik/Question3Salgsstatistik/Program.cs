@@ -14,11 +14,16 @@ namespace Question3Salgsstatistik
     
     internal class Program
     {
-        private static void GetBooks(SqlConnection con)
+        private static void GetAllBooks(SqlConnection con)
         {
             SqlCommand cmd = new SqlCommand("select BookName, BookAmount FROM BooksQuestion3", con);
-    
-            var table = new ConsoleTable("Bookname", "Quantity");
+
+            var table = new ConsoleTable( new ConsoleTableOptions
+              {
+                Columns = new[] {"Bookname", "Quantity"},
+                EnableCount = false
+              }
+            );
     
             SqlDataReader reader = cmd.ExecuteReader();
             if (reader.HasRows)
@@ -40,32 +45,28 @@ namespace Question3Salgsstatistik
             string? input = Console.ReadLine()?.Trim();
             
             SqlCommand findcmd;
-                
-            if(input.Length != 0)
-            {
-                findcmd = new SqlCommand("SELECT BookName, BookAmount FROM BooksQuestion3 WHERE BookName LIKE @BookName", con);
-                findcmd.Parameters.AddWithValue("@BookName", "%" + input + "%" );
-                
-                SqlDataReader reader = findcmd.ExecuteReader();
-                var table = new ConsoleTable("Bookname", "Quantity");
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        table.AddRow(reader.GetString("BookName"), reader.GetInt32("BookAmount"));
-                    }
-                    table.Write();
-                }
-                else
-                {
-                    Console.WriteLine("Ingen bog fundet");
-                }
-                
+
+            if (input.Length == 0){
+              GetAllBooks(con);
+              return;
             }
-            else
-            {
-                GetBooks(con);
+                
+            findcmd = new SqlCommand("SELECT BookName, BookAmount FROM BooksQuestion3 WHERE BookName LIKE @BookName", con);
+            findcmd.Parameters.AddWithValue("@BookName", "%" + input + "%" );
+            
+            SqlDataReader reader = findcmd.ExecuteReader();
+            var table = new ConsoleTable("Bookname", "Quantity");
+
+            if (!reader.HasRows){
+              Console.WriteLine("Ingen bog fundet");
+              return;
             }
+
+            while (reader.Read()) {
+                table.AddRow(reader.GetString("BookName"), reader.GetInt32("BookAmount"));
+            }
+            table.Write();
+                
         }
         
         
@@ -75,8 +76,6 @@ namespace Question3Salgsstatistik
             try
             {
                 con.Open();
-                GetBooks(con);
-
                 FindBook(con);
             }
             catch (Exception e)
@@ -88,8 +87,6 @@ namespace Question3Salgsstatistik
             {
                 con.Close();
             }
-            
-            
         }
     }
     
