@@ -14,24 +14,21 @@ namespace Question3Salgsstatistik
     
     internal class Program
     {
-        private static void GetAllBooks(SqlConnection con)
+        private static void GetAllBooks(SqlConnection connection)
         {
-            SqlCommand cmd = new SqlCommand("select BookName, BookAmount FROM BooksQuestion3", con);
+            SqlCommand cmd = new SqlCommand("select BookName, BookAmount FROM BooksQuestion3", connection);
 
-            var table = new ConsoleTable( new ConsoleTableOptions
-              {
-                Columns = new[] {"Bookname", "Quantity"},
-                EnableCount = false
-              }
+            var table = new ConsoleTable(
+                new ConsoleTableOptions {
+                    Columns = new[] {"Bookname", "Quantity"},
+                    EnableCount = false
+                }
             );
     
             SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
+            if (reader.HasRows) {
+                while (reader.Read()) {
                     table.AddRow(reader.GetString("BookName"), reader.GetInt32("BookAmount"));
-    
                 }
             }
             table.Write();
@@ -39,53 +36,44 @@ namespace Question3Salgsstatistik
             cmd.Dispose();
         }
 
-        public static void FindBook(SqlConnection con)
-        {
+        public static void FindBook(SqlConnection connection) {
             Console.WriteLine("Søg efter bog: ");
             string? input = Console.ReadLine()?.Trim();
             
             SqlCommand findcmd;
 
             if (input.Length == 0){
-              GetAllBooks(con);
-              return;
+                GetAllBooks(connection);
+                return;
             }
                 
-            findcmd = new SqlCommand("SELECT BookName, BookAmount FROM BooksQuestion3 WHERE BookName LIKE @BookName", con);
+            findcmd = new SqlCommand("SELECT BookName, BookAmount FROM BooksQuestion3 WHERE BookName LIKE @BookName", connection);
             findcmd.Parameters.AddWithValue("@BookName", "%" + input + "%" );
             
             SqlDataReader reader = findcmd.ExecuteReader();
             var table = new ConsoleTable("Bookname", "Quantity");
 
             if (!reader.HasRows){
-              Console.WriteLine("Ingen bog fundet");
-              return;
+                Console.WriteLine("Ingen bog fundet");
+                return;
             }
 
             while (reader.Read()) {
                 table.AddRow(reader.GetString("BookName"), reader.GetInt32("BookAmount"));
             }
             table.Write();
-                
         }
         
         
         static void Main(string[] args)
         {
-            SqlConnection con = new SqlConnection(DBConnection.ConnectionString);
-            try
-            {
-                con.Open();
-                FindBook(con);
+            SqlConnection connection = new SqlConnection(DBConnection.ConnectionString);
+            try {
+                connection.Open();
+                FindBook(connection);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            finally
-            {
-                con.Close();
+            finally {
+                connection.Close();
             }
         }
     }
