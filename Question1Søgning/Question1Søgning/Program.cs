@@ -58,6 +58,9 @@ namespace Question1Soegning
                 Console.WriteLine(e.Message);
                 throw;
             }
+            finally{
+              citycon.Close();
+            }
 
             //initiate connection with connections string from class DBConnection
             SqlConnection Usercmd = new SqlConnection(DBConnection.ConnectionString);
