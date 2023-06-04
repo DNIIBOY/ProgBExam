@@ -5,27 +5,16 @@ using System.Data.SqlClient;
 
 namespace Question1Soegning
 {
-    public class Personer
-    {
-        public int ID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int cityID { get; set; }
-    }
-
-    public class Cities
-    {
+    public class City {
         public int ID { get; set; }
         public string CityName { get; set; }
     }
 
-    public class DBConnection
-    {
+    public class DBConnection {
         public const string ConnectionString = "Data Source=70.34.198.110; Initial Catalog=2022RaCeMa; User ID=RaCeMa; Password=2022RaCeMa";
     }
 
-    internal class Program
-    {
+    internal class Program {
         //user table with fistname
         private static string findfirstname = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1 WHERE FirstName LIKE @FirstName";
         private static string findAll = "SELECT UserID, FirstName, LastName, CityID FROM UsersQuestion1";
@@ -33,97 +22,79 @@ namespace Question1Soegning
         //city table
         const string CitySqlQuery = "SELECT CityID, CityName FROM CitiesQuestion1";
 
-        public static string getcity(int cityid, List<Cities> citiesList)
-        {
-            foreach (var city in citiesList)
-            {
-                if (city.ID == cityid)
-                {
+        public static string getcity(int cityid, List<City> cities) {
+            foreach (var city in cities) {
+                if (city.ID == cityid) {
                     return city.CityName;
                 }
             }
             return "City not found";
         }
         
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             //read cities from database
-            SqlConnection con = new SqlConnection(DBConnection.ConnectionString);
+            SqlConnection connnection = new SqlConnection(DBConnection.ConnectionString);
             
-            List<Cities> cities = new List<Cities>();
-            try
-            {
-                con.Open();
+            List<City> cities = new List<City>();
+            try {
+                connnection.Open();
+                SqlCommand cityCommand = new SqlCommand(CitySqlQuery, connnection);
                 
-                SqlCommand citycmd = new SqlCommand(CitySqlQuery, con);
-                
-                SqlDataReader reader1 = citycmd.ExecuteReader();
-                if (reader1.HasRows)
-                {
-                    while (reader1.Read())
-                    {
-                        cities.Add(new Cities()
-                        {
-                            ID = reader1.GetInt32("CityID"),
-                            CityName = reader1.GetString("CityName")
+                SqlDataReader cityReader = cityCommand.ExecuteReader();
+                if (cityReader.HasRows) {
+                    while (cityReader.Read()) {
+                        cities.Add(new City() {
+                            ID = cityReader.GetInt32("CityID"),
+                            CityName = cityReader.GetString("CityName")
                         }); 
                     }
                 }
-                reader1.Close();
-                
-                citycmd.Dispose();
+                cityReader.Close();
+                cityCommand.Dispose();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
+            catch (Exception e) {
+                connnection.Close();
                 throw;
             }
             
             Console.WriteLine("Søg efter et navn? (blank for alle)");
-            string? input = Console.ReadLine();
+            string? input = Console.ReadLine().Trim();
             
-            try
-            {
+            try {
                 string userSqlQuery;
-                SqlCommand usercmd;
+                SqlCommand userCommand;
 
-                if (input.Trim().Length != 0 )
-                {
-                    userSqlQuery = findfirstname;
-                    usercmd = new SqlCommand(userSqlQuery, con);
-                    usercmd.Parameters.AddWithValue("@FirstName", input + "%");
-                    
-                }
-                else
-                {
+                if (input.Length == 0) {
                     userSqlQuery = findAll;
-                    usercmd = new SqlCommand(userSqlQuery, con);
+                    userCommand = new SqlCommand(userSqlQuery, connnection);
                 }
-                //create table for console output passe ind the column headers
-                var table = new ConsoleTable("Firstname", "Lastname", "City");
+                else {
+                    userSqlQuery = findfirstname;
+                    userCommand = new SqlCommand(userSqlQuery, connnection);
+                    userCommand.Parameters.AddWithValue("@FirstName", input + "%");
+                }
+
+                var table = new ConsoleTable(
+                    new ConsoleTableOptions {
+                        Columns = new[] {"Firstname", "Lastname", "City"},
+                        EnableCount = false
+                    }
+                );
                 
-                SqlDataReader reader2 = usercmd.ExecuteReader();
-                if (reader2.HasRows)
-                {
-                    while (reader2.Read())
-                    {
+                SqlDataReader userReader = userCommand.ExecuteReader();
+                if (userReader.HasRows) {
+                    while (userReader.Read()) {
                         table.AddRow(
-                            reader2.GetString("FirstName"), 
-                            reader2.GetString("LastName"), 
-                            getcity(reader2.GetInt32("CityID"), cities)
+                            userReader.GetString("FirstName"), 
+                            userReader.GetString("LastName"), 
+                            getcity(userReader.GetInt32("CityID"), cities)
                         );
                     }
                 }
                 table.Write();
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-            finally
-            {
-                con.Close();
+            finally {
+                connnection.Close();
             }
         }
     }
