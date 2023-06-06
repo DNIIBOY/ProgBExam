@@ -6,7 +6,7 @@
   <form metod="POST">
     <h1 class="display-4 mb-5">Elevfest tilmelding</h1>
     <div class="mb-3">
-      <label for="basic-url" class="form-label">Dit fulde navn</label>
+      <label for="name" class="form-label">Dit fulde navn</label>
       <div class="input-group">
         <input type="text" class="form-control" id="name" name="name" aria-describedby="basic-addon3 basic-addon4" required>
       </div>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="basic-url" class="form-label">Klasse</label>
+      <label for="studentClass" class="form-label">Klasse</label>
       <div class="input-group">
         <select class="form-select" name="studentClass" required>
           <option selected value="1a">1.a</option>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="basic-url" class="form-label">Alder</label>
+      <label for="age" class="form-label">Alder</label>
       <div class="input-group">
         <input type="range" class="form-range" name="age" min="15" max="25" value="18" id="ageRange" required>
       </div>
@@ -45,6 +45,4 @@
   document.getElementById("ageRange").addEventListener("input", function() {
       document.getElementById("ageDisplay").innerText = document.getElementById("ageRange").value
   });
-
-
 </script>
