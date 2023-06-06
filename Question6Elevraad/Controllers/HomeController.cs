@@ -17,9 +17,22 @@ public class HomeController : Controller{
         return View();
     }
 
+    // [HttpPost]
+    // public IActionResult Index(string name, string studentClass, int age){
+    //     var user = new User(name, studentClass, age, age >= 18);
+    //     Backend.Users.Participants.Add(user);
+    //
+    //     return View();
+    // }
+
     [HttpPost]
     public IActionResult Index(string name, string studentClass, int age){
-        var user = new User(name, studentClass, age, age >= 18);
+        User user = new User();
+
+        user.Name = name;
+        user.StudentClass = studentClass;
+        user.Age = age;
+        user.CanDrink = age >= 18;
         Backend.Users.Participants.Add(user);
 
         return View();
