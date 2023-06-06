@@ -8,10 +8,11 @@ public class User{
     public int Age;
     public bool CanDrink;
 
-    // public User(string name, string studentClass, int age, bool canDrink){
-    //     Name = name;
-    //     StudentClass = studentClass;
-    //     Age = age;
-    //     CanDrink = canDrink;
-    // }
+    public User(){}
+    public User(string name, string studentClass, int age, bool canDrink){
+        Name = name;
+        StudentClass = studentClass;
+        Age = age;
+        CanDrink = canDrink;
+    }
 }
