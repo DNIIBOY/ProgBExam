@@ -34,15 +34,49 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="BetterConsoles.Colors, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\BetterConsoles.Colors.1.1.1\lib\net471\BetterConsoles.Colors.dll</HintPath>
+        </Reference>
+        <Reference Include="BetterConsoles.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\BetterConsoles.Core.1.2.0\lib\net471\BetterConsoles.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Clawfoot.Core, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\Clawfoot.Core.0.6.0\lib\net461\Clawfoot.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Clawfoot.Extensions, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\Clawfoot.Extensions.0.6.0\lib\net461\Clawfoot.Extensions.dll</HintPath>
+        </Reference>
+        <Reference Include="ConsoleTables, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\ConsoleTables.2.4.2\lib\net40\ConsoleTables.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="mscorlib" />
         <Reference Include="System" />
+        <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+        </Reference>
+        <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+        </Reference>
+        <Reference Include="System.ComponentModel.Composition" />
+        <Reference Include="System.ComponentModel.DataAnnotations" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
+        </Reference>
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Bilag.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
